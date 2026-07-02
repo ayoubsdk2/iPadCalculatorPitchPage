@@ -1,0 +1,1264 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+/* Force white SVG icons inside purple/primary circular buttons (quantity + / − controls). */
+.bg-primary svg,
+button.bg-primary svg,
+[class*="bg-primary"] svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-glow: var(--primary-glow);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+
+  --gradient-primary: var(--gradient-primary);
+  --shadow-purple: var(--shadow-purple);
+
+  --font-display: "Audiowide", system-ui, sans-serif;
+  --font-title: "Audiowide", "Orbitron", system-ui, sans-serif;
+}
+
+:root {
+  --radius: 0.75rem;
+
+  /* Phaos light theme */
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.18 0.02 290);
+
+  --surface: oklch(0.985 0.005 290);
+  --surface-2: oklch(0.965 0.008 290);
+
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.18 0.02 290);
+
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.18 0.02 290);
+
+  /* Phaos deep brand purple — matches phaosai.com */
+  --primary: oklch(0.42 0.22 295);
+  --primary-foreground: oklch(1 0 0);
+  --primary-glow: oklch(0.68 0.22 310);
+
+  --secondary: oklch(0.96 0.01 290);
+  --secondary-foreground: oklch(0.2 0.02 290);
+
+  --muted: oklch(0.96 0.01 290);
+  --muted-foreground: oklch(0.5 0.02 290);
+
+  --accent: oklch(0.95 0.04 305);
+  --accent-foreground: oklch(0.2 0.02 290);
+
+  --destructive: oklch(0.6 0.22 25);
+  --destructive-foreground: oklch(1 0 0);
+
+  --success: oklch(0.55 0.16 155);
+  --success-foreground: oklch(1 0 0);
+
+  --border: oklch(0.9 0.01 290);
+  --input: oklch(0.92 0.01 290);
+  --ring: oklch(0.55 0.24 305);
+
+  --gradient-primary: linear-gradient(135deg, oklch(0.5 0.25 295), oklch(0.65 0.22 315));
+  --shadow-purple: 0 18px 40px -20px oklch(0.55 0.24 305 / 0.35);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html,
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: oklch(0.55 0.24 305 / 0.25);
+    color: var(--color-foreground);
+  }
+}
+
+@utility gradient-primary {
+  background-image: var(--gradient-primary);
+}
+
+@utility text-gradient-primary {
+  background-image: var(--gradient-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility font-display {
+  font-family: var(--font-display);
+  letter-spacing: 0.04em;
+}
+
+/* Phaos-purple range slider */
+.phaos-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 12px;
+  border-radius: 9999px;
+  background: linear-gradient(
+    to right,
+    oklch(0.55 0.24 305) 0%,
+    oklch(0.55 0.24 305) var(--val, 50%),
+    oklch(0.55 0.24 305 / 0.15) var(--val, 50%),
+    oklch(0.55 0.24 305 / 0.15) 100%
+  );
+  outline: none;
+  cursor: pointer;
+}
+.phaos-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 22px;
+  width: 22px;
+  border-radius: 9999px;
+  background: white;
+  border: 3px solid oklch(0.55 0.24 305);
+  box-shadow: 0 4px 14px -2px oklch(0.55 0.24 305 / 0.5);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+.phaos-range::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+}
+.phaos-range::-moz-range-thumb {
+  height: 22px;
+  width: 22px;
+  border-radius: 9999px;
+  background: white;
+  border: 3px solid oklch(0.55 0.24 305);
+  box-shadow: 0 4px 14px -2px oklch(0.55 0.24 305 / 0.5);
+  cursor: pointer;
+}
+
+@keyframes phaos-sold-glow {
+  0%, 100% {
+    box-shadow:
+      inset 0 2px 0 oklch(0.78 0.18 305 / 0.65),
+      inset 0 -3px 0 oklch(0.18 0.10 290 / 0.55),
+      inset 0 0 0 1px oklch(0.25 0.14 295 / 0.6),
+      0 0 18px 0 oklch(0.68 0.22 310 / 0.55),
+      0 16px 32px -10px oklch(0.30 0.20 295 / 0.62);
+  }
+  50% {
+    box-shadow:
+      inset 0 2px 0 oklch(0.88 0.12 305 / 0.75),
+      inset 0 -3px 0 oklch(0.18 0.10 290 / 0.55),
+      inset 0 0 0 1px oklch(0.25 0.14 295 / 0.6),
+      0 0 30px 3px oklch(0.78 0.18 315 / 0.7),
+      0 20px 36px -8px oklch(0.30 0.20 295 / 0.7);
+  }
+}
+
+@keyframes phaos-sparkle-sweep {
+  from { transform: translateX(-140%) rotate(18deg); }
+  to { transform: translateX(140%) rotate(18deg); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .phaos-sold-button {
+    animation: phaos-sold-glow 2.4s ease-in-out infinite;
+  }
+
+  .phaos-sold-button::after {
+    content: "";
+    position: absolute;
+    inset: -45% -30%;
+    background: linear-gradient(90deg, transparent 0%, oklch(1 0 0 / 0.16) 42%, oklch(1 0 0 / 0.62) 50%, oklch(1 0 0 / 0.16) 58%, transparent 100%);
+    animation: phaos-sparkle-sweep 3s ease-in-out infinite;
+    pointer-events: none;
+  }
+}
+
+.phaos-slider-heading {
+  text-align: center;
+}
+
+@keyframes phaos-pulse-soft {
+  0%, 100% { box-shadow: 0 0 0 0 oklch(0.85 0.18 95 / 0.55); }
+  50% { box-shadow: 0 0 0 8px oklch(0.85 0.18 95 / 0); }
+}
+.animate-pulse-soft {
+  animation: phaos-pulse-soft 1.8s ease-in-out infinite;
+}
+
+@keyframes phaos-fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: phaos-fade-in 0.35s ease-out both;
+}
+
+.phaos-stage-wrap {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--background);
+}
+.phaos-stage-wrap.phaos-admin-editing {
+  justify-content: center;
+  padding-left: 0;
+}
+.phaos-stage-wrap:fullscreen,
+.phaos-stage-wrap:-webkit-full-screen {
+  width: 100vw;
+  height: 100vh;
+  background: var(--background);
+}
+
+.phaos-stage-sizer {
+  position: relative;
+  flex: 0 0 auto;
+  width: calc(1580px * var(--phaos-stage-scale, 1));
+  height: calc(1185px * var(--phaos-stage-scale, 1));
+}
+
+.phaos-ipad-stage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1580px;
+  height: 1185px;
+  transform: scale(var(--phaos-stage-scale, 1));
+  transform-origin: top left;
+  display: grid;
+  grid-template-columns: var(--ph-rail-col, 6.8rem) minmax(0, 1fr);
+  gap: var(--ph-stage-gap, 0.55rem);
+  padding: var(--ph-stage-pad-top, 0.7rem) var(--ph-stage-pad-right, 0.7rem) var(--ph-stage-pad-bottom, 0.5rem) var(--ph-stage-pad-left, 0.35rem);
+  overflow: hidden;
+}
+
+.phaos-rail {
+  padding-top: var(--ph-rail-pad-top, 5.4rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--ph-rail-gap, 1.55rem);
+  align-items: stretch;
+}
+
+.phaos-rail-button {
+  width: 100%;
+  min-height: var(--ph-rail-btn-h, 3.3rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ph-rail-btn-gap, 0.1rem);
+  border-radius: var(--ph-rail-btn-radius, 0.55rem);
+  border: 2px solid color-mix(in oklab, var(--primary) 55%, transparent);
+  background: var(--background);
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+.phaos-rail-button:hover {
+  border-color: var(--primary);
+  background: var(--accent);
+}
+.phaos-rail-button svg {
+  width: var(--ph-rail-btn-icon, 1.4rem);
+  height: var(--ph-rail-btn-icon, 1.4rem);
+}
+.phaos-rail-button span:last-child {
+  font-size: var(--ph-rail-btn-font, 0.95rem);
+}
+
+/*
+ * Board layout — matches user's marked zones:
+ *   Row 1: title (spans all)
+ *   Row 2: 3x3 metric cells (spans all)
+ *   Row 3: role (left half)              |  financial  |  phaos
+ *   Row 4: slider (left half)            |  financial  |  phaos
+ *   Row 5: logo | cta                    |  bullets (spans both right cols)
+ */
+.phaos-board {
+  min-width: 0;
+  height: 100%;
+  display: grid;
+  grid-template-columns: var(--ph-board-c1, 1.4fr) var(--ph-board-c2, 1.1fr) var(--ph-board-c3, 1.2fr) var(--ph-board-c4, 1.2fr);
+  grid-template-rows: var(--ph-board-r1, 8%) var(--ph-board-r2, 36%) var(--ph-board-r3, 9.5%) var(--ph-board-r4, 12.5%) minmax(0, 1fr);
+  row-gap: var(--ph-board-row-gap, 2%);
+  column-gap: var(--ph-board-col-gap, 0.55rem);
+  grid-template-areas:
+    "title  title  title  title"
+    "cells  cells  cells  cells"
+    "role   role   fin    phaos"
+    "slide  slide  fin    phaos"
+    "logo   cta    bull   bull";
+}
+
+
+
+.phaos-title-row {
+  grid-area: title;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+}
+
+.phaos-cells-grid {
+  grid-area: cells;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  width: 100%;
+  gap: var(--ph-cells-gap-y, 1rem) var(--ph-cells-gap-x, 1.1rem);
+  min-height: 0;
+  justify-self: stretch;
+}
+
+.phaos-role-wrap {
+  grid-area: role;
+  min-height: 0;
+  align-self: stretch;
+  padding: 0.15rem 0 0.1rem;
+}
+
+.phaos-slider-panel {
+  grid-area: slide;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0.35rem 0.6rem 0.15rem;
+  gap: 0.55rem;
+}
+
+.phaos-financial-panel {
+  grid-area: fin;
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 0;
+  overflow: visible;
+}
+
+.phaos-price-panel {
+  grid-area: phaos;
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 0;
+  overflow: visible;
+}
+
+.phaos-result-box {
+  width: 100%;
+  height: 8.15rem;
+  flex: 0 0 8.15rem;
+}
+
+.phaos-savings-breakdown {
+  position: absolute;
+  top: 9.45rem;
+  left: 0;
+  right: 0;
+  width: 96%;
+  margin: 0 auto;
+  list-style: none;
+  padding: 0;
+  color: var(--muted-foreground);
+  font-size: clamp(1.05rem, 1.18vw, 1.28rem);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.35;
+  text-align: center;
+}
+.phaos-savings-breakdown li {
+  white-space: nowrap;
+}
+
+.phaos-usage-line,
+.phaos-usage-lines {
+  position: absolute;
+  top: 9.45rem;
+  left: 0;
+  right: 0;
+  width: 96%;
+  margin: 0 auto;
+  text-align: center;
+  color: var(--muted-foreground);
+  font-size: clamp(1.05rem, 1.18vw, 1.28rem);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.35;
+  list-style: none;
+  padding: 0;
+}
+.phaos-usage-lines li {
+  white-space: nowrap;
+}
+
+
+.phaos-logo-zone {
+  grid-area: logo;
+  align-self: stretch;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  min-height: 0;
+}
+
+.phaos-logo-img {
+  width: 100%;
+  max-height: 14.2rem;
+  object-fit: contain;
+  object-position: left bottom;
+  user-select: none;
+}
+
+.phaos-cta-zone {
+  grid-area: cta;
+  align-self: stretch;
+  justify-self: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0;
+  padding-bottom: 0.25rem;
+  min-height: 0;
+}
+.phaos-advanced-slot {
+  min-height: 2rem;
+  margin-top: 0.65rem;
+  width: min(100%, 17.2rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.phaos-sold-button {
+  width: min(100%, 17.2rem);
+  min-height: 10.1rem;
+  border-radius: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0.55rem 0.6rem;
+  overflow: hidden;
+}
+
+.phaos-sold-main,
+.phaos-sold-sub {
+  color: var(--primary-foreground);
+  text-align: center;
+  line-height: 1.05;
+  text-shadow: 0 -1px 0 oklch(0.20 0.10 290 / 0.65), 0 1px 0 oklch(0.85 0.18 305 / 0.28);
+  white-space: nowrap;
+}
+.phaos-sold-main {
+  font-size: clamp(2.1rem, 2.2vw, 2.85rem);
+  font-weight: 950;
+  letter-spacing: 0.01em;
+}
+.phaos-sold-sub {
+  margin-top: 0.45rem;
+  font-size: clamp(1.7rem, 1.8vw, 2.35rem);
+  font-weight: 500;
+}
+
+
+.phaos-advanced-link {
+  width: min(100%, 17.2rem);
+  text-align: center;
+  color: var(--primary);
+  font-size: 1.05rem;
+  font-style: italic;
+  font-weight: 750;
+  text-decoration: underline;
+  text-underline-offset: 0.22rem;
+  text-decoration-thickness: 2px;
+}
+
+.phaos-bullets-zone {
+  grid-area: bull;
+  align-self: stretch;
+  justify-self: stretch;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: 0.15rem 0 0.25rem;
+}
+
+.phaos-editable {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+.phaos-editable[data-editing="true"] {
+  cursor: move;
+  touch-action: none;
+  user-select: none;
+}
+.phaos-editable[data-editing="true"] > .phaos-editable-content {
+  pointer-events: none;
+}
+.phaos-rail > .phaos-editable,
+.phaos-cta-zone > .phaos-editable {
+  height: auto;
+}
+.phaos-editable[data-selected="true"] {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 5px color-mix(in oklab, var(--primary) 18%, transparent);
+}
+.phaos-editable-content {
+  width: 100%;
+  height: 100%;
+  transform-origin: center;
+}
+.phaos-editable-content[data-text-style="true"],
+.phaos-editable-content[data-text-style="true"] * {
+  font-family: var(--phaos-edit-font-family, inherit) !important;
+  font-size: var(--phaos-edit-font-size, inherit) !important;
+  font-weight: var(--phaos-edit-font-weight, inherit) !important;
+  line-height: var(--phaos-edit-line-height, inherit) !important;
+  color: var(--phaos-edit-color, inherit) !important;
+}
+.phaos-editable-content > * {
+  width: 100%;
+  height: 100%;
+  transform: scale(var(--phaos-editable-zoom, 1));
+  transform-origin: center;
+}
+.phaos-editable.phaos-edit-parent > .phaos-editable-content {
+  pointer-events: auto;
+}
+.phaos-editable.phaos-edit-parent > .phaos-editable-content > .phaos-editable[data-editing="true"] {
+  pointer-events: auto;
+}
+.phaos-edit-text-replacement {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  white-space: pre-wrap;
+  text-align: center;
+  font: inherit;
+  color: inherit;
+}
+.phaos-edit-label {
+  position: absolute;
+  left: 0;
+  bottom: calc(100% + 0.35rem);
+  z-index: 5;
+  border-radius: 0.35rem;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  padding: 0.2rem 0.45rem;
+  font-size: 0.72rem;
+  font-weight: 900;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.phaos-edit-content-handle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 6;
+  transform: translate(-50%, -50%);
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 999px;
+  border: 2px solid var(--primary-foreground);
+  background: var(--primary);
+  color: var(--primary-foreground);
+  font-size: 0.78rem;
+  font-weight: 950;
+  cursor: grab;
+  box-shadow: 0 8px 20px -8px color-mix(in oklab, var(--primary) 65%, black);
+}
+.phaos-edit-handle {
+  position: absolute;
+  z-index: 7;
+  width: 0.9rem;
+  height: 0.9rem;
+  border: 2px solid var(--primary-foreground);
+  border-radius: 999px;
+  background: var(--primary);
+  box-shadow: 0 2px 8px color-mix(in oklab, var(--primary) 35%, transparent);
+}
+.phaos-edit-handle-nw { left: -0.45rem; top: -0.45rem; cursor: nwse-resize; }
+.phaos-edit-handle-n { left: 50%; top: -0.45rem; transform: translateX(-50%); cursor: ns-resize; }
+.phaos-edit-handle-ne { right: -0.45rem; top: -0.45rem; cursor: nesw-resize; }
+.phaos-edit-handle-e { right: -0.45rem; top: 50%; transform: translateY(-50%); cursor: ew-resize; }
+.phaos-edit-handle-se { right: -0.45rem; bottom: -0.45rem; cursor: nwse-resize; }
+.phaos-edit-handle-s { left: 50%; bottom: -0.45rem; transform: translateX(-50%); cursor: ns-resize; }
+.phaos-edit-handle-sw { left: -0.45rem; bottom: -0.45rem; cursor: nesw-resize; }
+.phaos-edit-handle-w { left: -0.45rem; top: 50%; transform: translateY(-50%); cursor: ew-resize; }
+.phaos-edit-toolbar {
+  position: fixed;
+  top: 0.75rem;
+  z-index: 60;
+  width: min(22rem, calc(100vw - 1.5rem));
+  max-height: calc(100dvh - 1.5rem);
+  overflow: auto;
+  border: 2px solid color-mix(in oklab, var(--primary) 45%, transparent);
+  border-radius: 0.65rem;
+  background: color-mix(in oklab, var(--background) 96%, transparent);
+  color: var(--foreground);
+  padding: 0.8rem;
+  box-shadow: 0 18px 50px -20px color-mix(in oklab, var(--foreground) 30%, transparent);
+  backdrop-filter: blur(10px);
+}
+.phaos-edit-toolbar-right {
+  left: clamp(0.75rem, calc(50vw + (1580px * var(--phaos-stage-scale, 1) / 2) + 0.75rem), calc(100vw - min(22rem, calc(100vw - 1.5rem)) - 0.75rem));
+}
+.phaos-edit-toolbar-left {
+  left: 0.75rem;
+  right: auto;
+}
+.phaos-edit-toolbar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.phaos-edit-toolbar-side-toggle {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid color-mix(in oklab, var(--primary) 45%, transparent);
+  border-radius: 0.35rem;
+  background: transparent;
+  color: var(--primary);
+  cursor: pointer;
+}
+.phaos-edit-toolbar-side-toggle:hover {
+  background: color-mix(in oklab, var(--primary) 12%, transparent);
+}
+.phaos-edit-toolbar-title { font-weight: 950; color: var(--primary); }
+.phaos-edit-toolbar-subtitle { margin-top: 0.15rem; font-size: 0.72rem; line-height: 1.25; color: var(--muted-foreground); }
+.phaos-edit-inspector { margin-top: 0.75rem; display: grid; gap: 0.55rem; }
+.phaos-edit-selected { font-size: 0.78rem; font-weight: 900; }
+.phaos-edit-scope { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.3rem; }
+.phaos-edit-scope-btn {
+  border: 1px solid var(--border);
+  background: var(--background);
+  color: var(--foreground);
+  border-radius: 0.4rem;
+  padding: 0.35rem 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+.phaos-edit-scope-btn-active {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  border-color: var(--primary);
+}
+.phaos-edit-inspector label { display: grid; gap: 0.2rem; font-size: 0.72rem; font-weight: 800; color: var(--muted-foreground); }
+.phaos-edit-inspector input[type="range"] { width: 100%; accent-color: var(--primary); }
+.phaos-edit-mini-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.35rem; }
+.phaos-edit-mini-grid input {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 0.35rem;
+  background: var(--background);
+  padding: 0.25rem;
+  color: var(--foreground);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+.phaos-edit-inspector select,
+.phaos-edit-mini-grid select,
+.phaos-edit-textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 0.35rem;
+  background: var(--background);
+  padding: 0.25rem;
+  color: var(--foreground);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+.phaos-edit-textarea {
+  min-height: 5.25rem;
+  resize: vertical;
+}
+.phaos-edit-textarea:disabled {
+  opacity: 0.65;
+}
+.phaos-edit-empty { margin-top: 0.7rem; font-size: 0.78rem; color: var(--muted-foreground); }
+.phaos-edit-actions { margin-top: 0.75rem; display: flex; gap: 0.4rem; flex-wrap: wrap; }
+.phaos-edit-primary,
+.phaos-edit-secondary {
+  border-radius: 0.45rem;
+  padding: 0.42rem 0.62rem;
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+.phaos-edit-primary { background: var(--primary); color: var(--primary-foreground); }
+.phaos-edit-secondary { border: 1px solid var(--border); background: var(--background); color: var(--foreground); }
+.phaos-edit-primary:disabled { opacity: 0.55; }
+
+
+@utility font-title {
+  font-family: var(--font-title);
+  letter-spacing: 0.02em;
+}
+
+/* Embossed CTA — premium 3D depth, engraved text, brand purple. */
+.cta-embossed {
+  position: relative;
+  background:
+    linear-gradient(180deg,
+      oklch(0.52 0.24 298) 0%,
+      oklch(0.40 0.22 295) 50%,
+      oklch(0.32 0.20 293) 100%);
+  box-shadow:
+    inset 0 2px 0 oklch(0.78 0.18 305 / 0.55),
+    inset 0 -3px 0 oklch(0.18 0.10 290 / 0.55),
+    inset 0 0 0 1px oklch(0.25 0.14 295 / 0.6),
+    0 14px 28px -10px oklch(0.30 0.20 295 / 0.55),
+    0 4px 10px -4px oklch(0.30 0.20 295 / 0.5);
+  transition: transform 0.12s ease, box-shadow 0.2s ease;
+}
+.cta-embossed:hover { transform: translateY(-1px); }
+.cta-embossed:active {
+  transform: translateY(1px);
+  box-shadow:
+    inset 0 3px 6px oklch(0.18 0.10 290 / 0.6),
+    inset 0 -1px 0 oklch(0.78 0.18 305 / 0.3),
+    0 4px 10px -6px oklch(0.30 0.20 295 / 0.5);
+}
+.cta-engraved-dark {
+  color: #0a0a0a;
+  text-shadow:
+    0 1px 0 oklch(0.85 0.10 305 / 0.45),
+    0 -1px 0 oklch(0.10 0.05 290 / 0.55);
+}
+.cta-engraved-light {
+  color: #ffffff;
+  text-shadow:
+    0 -1px 0 oklch(0.20 0.10 290 / 0.65),
+    0 1px 0 oklch(0.85 0.18 305 / 0.35);
+}
+
+/* iOS pseudo-fullscreen — avoids Safari "typing in full screen" popup */
+.phaos-pseudo-fullscreen {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 50 !important;
+  background: var(--background);
+  width: 100vw !important;
+  height: 100vh !important;
+}
+
+/* ============================================================
+   Advanced Pricing — independent grid. Logo stays anchored.
+   ============================================================ */
+.phaos-board.phaos-advanced-mode,
+.phaos-advanced-mode .phaos-board,
+.phaos-advanced-mode.phaos-ipad-stage .phaos-board {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-rows: 9% 18% 16% minmax(0, 1fr) 14%;
+  row-gap: 0.75rem;
+  column-gap: 0.9rem;
+  grid-template-areas:
+    "advcap advcap advcap advhdr advhdr advhdr"
+    "fin    fin    phaos  phaos  impl   impl"
+    "advLM  advLM  advLM  bull   bull   bull"
+    "advLM  advLM  advLM  advR   advR   advR"
+    "logo   srch   srch   srch   cta    cta";
+}
+
+.phaos-advanced-mode .phaos-rail {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.phaos-advanced-mode .phaos-title-row,
+.phaos-advanced-mode .phaos-cells-grid,
+.phaos-advanced-mode .phaos-role-wrap,
+.phaos-advanced-mode .phaos-slider-panel,
+.phaos-advanced-mode .phaos-bullets-zone,
+.phaos-advanced-mode .phaos-cta-zone .phaos-advanced-slot {
+  display: none !important;
+}
+
+.phaos-impl-zone   { grid-area: impl;   min-width: 0; min-height: 0; position: relative; }
+.phaos-bull-zone   { grid-area: bull;   min-width: 0; min-height: 0; align-self: stretch; }
+.phaos-advhdr-zone { grid-area: advhdr; min-width: 0; min-height: 0; display: flex; align-items: center; }
+.phaos-advcap-zone { grid-area: advcap; min-width: 0; min-height: 0; align-self: stretch; }
+.phaos-advLM-zone  { grid-area: advLM;  min-width: 0; min-height: 0; }
+.phaos-advL-zone   { grid-area: advLM;  min-width: 0; min-height: 0; }
+.phaos-advM-zone   { display: none; }
+.phaos-advR-zone   { grid-area: advR;   min-width: 0; min-height: 0; }
+.phaos-srch-zone   { grid-area: srch;   min-width: 0; min-height: 0; align-self: stretch; display: flex; align-items: flex-end; padding-bottom: 0.4rem; }
+
+/* Annual Savings + Complete ROI: free-floating overlays so they don't disturb
+   the existing advanced grid. Admin drag/resize positions them. */
+.phaos-asav-zone,
+.phaos-croi-zone {
+  position: absolute;
+  z-index: 5;
+  width: 18rem;
+  min-height: 9rem;
+  pointer-events: auto;
+}
+.phaos-asav-zone { top: 9rem; left: 0.75rem; }
+.phaos-croi-zone { top: 19rem; left: 0.75rem; }
+
+.phaos-goback {
+  position: absolute;
+  top: 0.6rem;
+  left: 0.6rem;
+  z-index: 30;
+  background: transparent;
+  border: 2px solid color-mix(in oklab, var(--primary) 50%, transparent);
+  color: var(--primary);
+  font-weight: 900;
+  font-size: 0.9rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 0.55rem;
+  transition: background 0.15s ease;
+}
+.phaos-goback:hover { background: var(--accent); }
+
+/* Numeric cells: flex column where sublines sit beneath the box.
+   Resizing the editable height pushes the lines further from the number. */
+.phaos-adv-numeric {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-top: 0.1rem;
+}
+.phaos-adv-sublines {
+  width: 100%;
+  margin-top: 0.35rem;
+  padding: 0 0.25rem 0.4rem;
+  list-style: none;
+  color: var(--muted-foreground);
+  font-size: 1.05rem;
+  font-style: italic;
+  line-height: 1.25;
+  text-align: center;
+}
+.phaos-adv-sublines li { white-space: nowrap; }
+
+/* Implementation Fee sublines: allow full breakdown to render inside cell */
+.phaos-impl-fee-details {
+  font-size: 0.92rem;
+  line-height: 1.2;
+  margin-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  overflow: visible;
+}
+.phaos-impl-fee-details li { white-space: nowrap; }
+@media (min-width: 1100px) {
+  .phaos-impl-fee-details { font-size: 1rem; }
+}
+
+
+/* Override absolute-positioned legacy subtext inside advanced mode */
+.phaos-advanced-mode .phaos-savings-breakdown,
+.phaos-advanced-mode .phaos-usage-line,
+.phaos-advanced-mode .phaos-usage-lines {
+  position: static;
+  width: 100%;
+  margin-top: auto;
+  padding: 0 0.25rem 0.4rem;
+  font-size: 1.05rem;
+  top: auto;
+}
+.phaos-advanced-mode .phaos-result-box {
+  height: auto;
+  flex: 0 0 auto;
+}
+.phaos-advanced-mode .phaos-financial-panel,
+.phaos-advanced-mode .phaos-price-panel {
+  display: block;
+  align-items: stretch;
+  justify-content: stretch;
+  padding: 0;
+  overflow: visible;
+}
+.phaos-advanced-mode .phaos-financial-panel > .phaos-editable,
+.phaos-advanced-mode .phaos-price-panel > .phaos-editable {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 12;
+  touch-action: none;
+}
+.phaos-advanced-mode .phaos-financial-panel > .phaos-editable[data-editing="true"] {
+  min-width: 18rem;
+  min-height: 12rem;
+}
+
+/* Ensure font-family override cascades into every descendant */
+.phaos-editable-content,
+.phaos-editable-content * {
+  font-family: inherit;
+}
+
+/* Implementation Includes card */
+.phaos-adv-includes {
+  width: 100%;
+  height: 100%;
+  border-radius: 0.85rem;
+  border: 2px solid color-mix(in oklab, var(--primary) 35%, transparent);
+  background: var(--background);
+  padding: 0.78rem 0.95rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Header title (italic AI) */
+.phaos-adv-title {
+  font-size: 1.55rem;
+  font-weight: 900;
+  letter-spacing: 0.01em;
+  color: var(--foreground);
+  padding-left: 0.25rem;
+  white-space: nowrap;
+}
+
+/* Capacity bar — typography per spec */
+.phaos-cap-bar {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0.15rem 0.35rem;
+}
+.phaos-cap-bar-pill {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  width: 100%;
+  height: 100%;
+  background: color-mix(in oklab, var(--primary) 8%, transparent);
+  border: 2px solid color-mix(in oklab, var(--primary) 35%, transparent);
+  border-radius: 0.65rem;
+  padding: 0.75rem 1.25rem;
+}
+.phaos-cap-bar-label { line-height: 1; min-width: 9.5rem; }
+.phaos-cap-controls { display: flex; align-items: center; justify-content: center; gap: 0.65rem; min-width: 9.5rem; }
+.phaos-cap-committed {
+  font-size: 1.34rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: var(--foreground);
+  line-height: 1;
+}
+.phaos-cap-title {
+  font-size: 1.18rem;
+  font-weight: 800;
+  color: var(--foreground);
+  line-height: 1.15;
+}
+.phaos-cap-bar-blurb {
+  flex: 1;
+  padding-left: 1rem;
+  border-left: 1px solid color-mix(in oklab, var(--primary) 25%, transparent);
+}
+.phaos-cap-blurb-line1 {
+  font-size: 1.34rem;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  color: var(--foreground);
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+.phaos-cap-blurb-line2 {
+  font-size: 1.08rem;
+  font-weight: 800;
+  color: var(--foreground);
+  line-height: 1.15;
+}
+
+/* Section cards */
+.phaos-adv-section {
+  height: 100%;
+  border-radius: 0.85rem;
+  border: 2px solid color-mix(in oklab, var(--primary) 35%, transparent);
+  background: var(--background);
+  padding: 0.82rem 1rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.phaos-advR-zone .phaos-adv-section {
+  padding: 0.5rem 0.85rem;
+  justify-content: flex-start;
+  height: 75%;
+  align-self: start;
+}
+.phaos-advR-zone table {
+  width: 100%;
+  font-size: 1rem;
+  table-layout: fixed;
+}
+.phaos-advR-zone th:nth-child(1),
+.phaos-advR-zone td:nth-child(1) { width: 28%; }
+.phaos-advR-zone th:nth-child(2),
+.phaos-advR-zone td:nth-child(2) { width: 43%; }
+.phaos-advR-zone th:nth-child(3),
+.phaos-advR-zone td:nth-child(3) { width: 29%; }
+.phaos-advR-zone th {
+  color: var(--foreground) !important;
+  font-size: 0.82rem !important;
+  padding-top: 0.2rem !important;
+  padding-bottom: 0.2rem !important;
+}
+.phaos-advR-zone td {
+  padding-top: 0.26rem;
+  padding-bottom: 0.26rem;
+}
+.phaos-advR-zone th,
+.phaos-advR-zone td {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* Add-ons / integrations rows: name | impl fee | monthly | qty */
+.phaos-adv-row {
+  display: grid;
+  grid-template-columns: 1.5fr 0.85fr 0.7fr auto;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid color-mix(in oklab, var(--primary) 12%, transparent);
+}
+.phaos-adv-row:last-child { border-bottom: none; }
+.phaos-adv-row-head {
+  padding: 0.25rem 0 0.35rem;
+  border-bottom: 2px solid color-mix(in oklab, var(--primary) 25%, transparent);
+}
+
+.phaos-adv-row,
+.phaos-adv-row * {
+  color: var(--foreground);
+}
+
+.phaos-column-chip {
+  border: 1px solid color-mix(in oklab, var(--primary) 35%, transparent);
+  background: color-mix(in oklab, var(--primary) 14%, var(--background));
+  color: var(--primary);
+}
+.phaos-column-chip:hover {
+  background: color-mix(in oklab, var(--primary) 22%, var(--background));
+}
+
+.phaos-search-bar {
+  width: 100%;
+  max-width: 38rem;
+  margin: 0 auto;
+}
+
+.phaos-advanced-mode .phaos-logo-zone,
+.phaos-advanced-mode .phaos-cta-zone {
+  align-items: flex-end;
+}
+.phaos-advanced-mode .phaos-cta-zone {
+  justify-content: flex-end;
+  align-self: end;
+  justify-self: end;
+}
+
+/* Allow per-word editable wrappers inside the Advanced Pricing title */
+.phaos-adv-title > .phaos-editable {
+  display: inline-block;
+  width: auto;
+  height: auto;
+  vertical-align: baseline;
+}
+.phaos-adv-title > .phaos-editable > .phaos-editable-content {
+  display: inline-block;
+  width: auto;
+  height: auto;
+}
+.phaos-adv-title > .phaos-editable > .phaos-editable-content > * {
+  width: auto;
+  height: auto;
+}
+
+/* Per-cell editable wrappers inside add-on / integration rows */
+.phaos-adv-section > .phaos-editable {
+  flex: 0 0 auto;
+  height: auto;
+}
+.phaos-adv-row > .phaos-editable {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 100%;
+}
+.phaos-adv-row > .phaos-editable > .phaos-editable-content,
+.phaos-adv-row > .phaos-editable > .phaos-editable-content > * {
+  height: auto;
+}
+
+/* Free-floating custom text element overlay (Advanced page admin add-text) */
+.phaos-custom-text-zone {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  min-width: 160px;
+  z-index: 25;
+}
+.phaos-custom-text-default {
+  display: inline-block;
+  padding: 0.35rem 0.6rem;
+  background: color-mix(in oklab, var(--primary) 12%, var(--background));
+  border: 2px dashed color-mix(in oklab, var(--primary) 55%, transparent);
+  border-radius: 0.5rem;
+  font-weight: 800;
+  color: var(--foreground);
+  white-space: pre-wrap;
+}
+.phaos-advanced-mode {
+  position: relative;
+}
+
+
+/* Unified System Customization & Add-Ons card */
+.phaos-adv-unified .phaos-adv-row {
+  grid-template-columns: minmax(0, 1.86fr) minmax(5.2rem, 0.72fr) minmax(5.2rem, 0.72fr) minmax(5.4rem, 0.5fr);
+  gap: 0.72rem;
+  padding: 0.47rem 0;
+  font-size: 1.2rem;
+  line-height: 1.04;
+}
+
+.phaos-adv-unified .phaos-adv-row-head {
+  padding: 0.2rem 0 0.42rem;
+}
+
+.phaos-adv-unified .phaos-adv-row > div,
+.phaos-adv-unified .phaos-adv-row > .phaos-editable {
+  min-width: 0;
+}
+
+.phaos-adv-unified .phaos-adv-row .font-extrabold,
+.phaos-adv-unified .phaos-adv-row .font-black {
+  font-size: 1.18rem !important;
+  font-weight: 900 !important;
+  line-height: 1.04 !important;
+}
+
+.phaos-adv-unified .phaos-adv-row-head .font-extrabold {
+  font-size: 1rem !important;
+  line-height: 1 !important;
+  letter-spacing: 0.02em !important;
+}
+
+.phaos-adv-unified .phaos-adv-row button {
+  width: 1.85rem;
+  height: 1.85rem;
+}
+
+.phaos-adv-unified .phaos-adv-row svg {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+.phaos-adv-unified .phaos-adv-section,
+.phaos-adv-unified {
+  justify-content: space-between;
+}
+
+.phaos-adv-subhead {
+  margin-top: 0.6rem;
+  padding: 0.35rem 0 0.25rem;
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: color-mix(in oklab, var(--primary) 75%, var(--foreground));
+  border-bottom: 1px solid color-mix(in oklab, var(--primary) 20%, transparent);
+}
+.phaos-adv-subhead:first-of-type { margin-top: 0; }
+
+/* Force purple search action button text to white, overriding any editable color cascade */
+.phaos-search-btn,
+.phaos-search-btn *,
+.phaos-add-btn,
+.phaos-add-btn * {
+  color: #ffffff !important;
+  font-weight: 900 !important;
+}
+
+.phaos-search-bar .phaos-search-btn,
+.phaos-search-bar .phaos-search-btn *,
+.phaos-search-bar .phaos-add-btn,
+.phaos-search-bar .phaos-add-btn *,
+.phaos-editable-content[data-text-style="true"] .phaos-search-bar .phaos-search-btn,
+.phaos-editable-content[data-text-style="true"] .phaos-search-bar .phaos-search-btn *,
+.phaos-editable-content[data-text-style="true"] .phaos-search-bar .phaos-add-btn,
+.phaos-editable-content[data-text-style="true"] .phaos-search-bar .phaos-add-btn * {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-weight: 900 !important;
+}

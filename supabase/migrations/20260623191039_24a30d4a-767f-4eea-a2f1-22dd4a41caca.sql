@@ -1,0 +1,2 @@
+DROP POLICY IF EXISTS "Authenticated users can view saved calculator repository" ON public.saved_calculations;
+CREATE POLICY "Users can view their own saved calculations" ON public.saved_calculations FOR SELECT TO authenticated USING (auth.uid() = user_id);

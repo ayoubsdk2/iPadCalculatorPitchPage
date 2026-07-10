@@ -104,7 +104,7 @@ BEGIN
   ) VALUES (
     _event_type_id, _et.team_profile_id, trim(_invitee_name), lower(trim(_invitee_email)), _invitee_notes,
     _start_at, _end_at, coalesce(_invitee_timezone, 'America/New_York'), 'booked',
-    CASE WHEN _pending_onboarding_id IS NOT NULL THEN 'post_stripe_onboarding'::phomo_booking_source
+    CASE WHEN _pending_onboarding_id IS NOT NULL THEN 'post_stripe'::phomo_booking_source
          ELSE 'direct_link'::phomo_booking_source END,
     _pending_onboarding_id, _token
   ) RETURNING bookings.id INTO _booking_id;
